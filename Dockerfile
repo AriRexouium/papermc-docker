@@ -2,8 +2,8 @@ FROM openjdk:11-jre-slim
 
 # Set Environment Variables
 ENV \
-  PAPER_BUILD="latest" \
   MINECRAFT_VERSION="latest" \
+  PAPER_BUILD="latest" \
   MIN_MEMORY="512M" \
   MAX_MEMORY="1G" \
   JAVA_ARGS=" \
@@ -29,8 +29,9 @@ ENV \
     -Daikars.new.flags=true"
 
 # Upgrade system and install dependencies.
-RUN apt update && apt upgrade -y && apt autoremove -y \
-  && apt install wget jq -y --no-install-recommends \
+RUN \
+  apt update && apt upgrade -y && apt autoremove -y \
+  && apt install wget jq -y --no-install-recommends --no-install-suggests \
   && rm -rf /var/lib/apt/lists/*
 
 # Move to directory and copy files.
@@ -43,5 +44,5 @@ CMD ["sh", "index.sh"]
 
 # Container setup
 VOLUME /home/papermc/minecraft
-EXPOSE 25565
-EXPOSE 25575
+EXPOSE 25565/tcp
+EXPOSE 25565/udp
