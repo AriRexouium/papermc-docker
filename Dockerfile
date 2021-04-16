@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-slim
+FROM alpine:latest
 
 # Set Environment Variables
 ENV \
@@ -30,9 +30,8 @@ ENV \
 
 # Upgrade system and install dependencies.
 RUN \
-  apt update && apt upgrade -y && apt autoremove -y \
-  && apt install wget jq -y --no-install-recommends --no-install-suggests \
-  && rm -rf /var/lib/apt/lists/*
+  apk update && apk upgrade --no-cache \
+  && apk add --no-cache jq wget openjdk11-jre-headless
 
 # Move to directory and copy files.
 WORKDIR /home/papermc
