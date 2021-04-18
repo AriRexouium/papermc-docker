@@ -63,6 +63,7 @@ fi
 # `RESTART_ON_CRASH` is set to true and that the exit code is non-zero, then
 # it restarts the server.
 
+cp ../start.sh .
 touch ../.start-server
 
 while [ -e ../.start-server ]; do

@@ -36,9 +36,8 @@ RUN \
 
 # Move to home directory, create and copy critical files.
 WORKDIR /home/papermc
+COPY init.sh start.sh ./
 RUN mkdir /minecraft
-COPY init.sh .
-COPY start.sh ./minecraft/
 
 # Start Script
 CMD ["sh", "init.sh"]
