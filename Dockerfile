@@ -6,6 +6,7 @@ ENV \
   PAPER_BUILD="latest" \
   MIN_MEMORY="512M" \
   MAX_MEMORY="1G" \
+  RESTART_ON_CRASH="true" \
   JAVA_ARGS=" \
     -XX:+UseG1GC \
     -XX:+ParallelRefProcEnabled \
@@ -33,13 +34,14 @@ RUN \
   apk update && apk upgrade --no-cache \
   && apk add --no-cache jq wget openjdk11-jre-headless
 
-# Move to directory and copy files.
+# Move to home directory, create and copy critical files.
 WORKDIR /home/papermc
 RUN mkdir /minecraft
-COPY index.sh .
+COPY init.sh .
+COPY start.sh ./minecraft/
 
 # Start Script
-CMD ["sh", "index.sh"]
+CMD ["sh", "init.sh"]
 
 # Container setup
 VOLUME /home/papermc/minecraft

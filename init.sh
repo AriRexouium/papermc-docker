@@ -44,6 +44,33 @@ if [ ! -e eula.txt ]; then
   sed -i 's/false/true/g' eula.txt
 fi
 
-###############################################################################
-# Start Server
-exec java -server -Xms${MIN_MEMORY} -Xmx${MAX_MEMORY} ${JAVA_ARGS} -jar ${jarFile} --nogui
+# Handle Startup, Restart, Shutdown, and Crashes###############################
+# Explaination:
+
+# Startup:
+# The `.start-server` file is created which jump-starts the script below.
+
+# Restart:
+# When the server restarts, it automatically calls `start.sh` which creates
+# the `.start-server` file, this allows this script to know to restart the server.
+
+# Shutdown:
+# When the server shutsdown, the `.start-server` file does not exist causing
+# this init script to simply close allowing the Docker container to close.
+
+# Crash:
+# When the server crashes, it checks to see if the environment variable
+# `RESTART_ON_CRASH` is set to true and that the exit code is non-zero, then
+# it restarts the server.
+
+touch ../.start-server
+
+while [ -e ../.start-server ]; do
+  rm ../.start-server
+  java -server -Xms${MIN_MEMORY} -Xmx${MAX_MEMORY} ${JAVA_ARGS} -jar ${jarFile} --nogui
+  exitCode=$?
+  if [ ${RESTART_ON_CRASH} = true ] && [ ! ${exitCode} = 0 ]; then
+    touch ../.start-server
+  fi
+  echo "Minecraft clossed with an exit code of ${exitCode}."
+done
