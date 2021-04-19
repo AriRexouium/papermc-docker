@@ -1,6 +1,9 @@
+# Fetch Image
+# Using alpine over openjdk for a much smaller image.
 FROM alpine:latest
 
 # Set Environment Variables
+# Default Java args are from Aikar. https://mcflags.emc.gs
 ENV \
   MINECRAFT_VERSION="latest" \
   PAPER_BUILD="latest" \
@@ -29,20 +32,27 @@ ENV \
     -Dusing.aikars.flags=https://mcflags.emc.gs \
     -Daikars.new.flags=true"
 
-# Upgrade system and install dependencies.
+# Upgrade System and Install Dependencies
+# Since Alpine comes with Busybox, wget is not needed
+# since Busybox has its own version of wget.
 RUN \
   apk update && apk upgrade --no-cache \
-  && apk add --no-cache jq wget openjdk11-jre-headless
+  && apk add --no-cache jq openjdk11-jre-headless
 
-# Move to home directory, create and copy critical files.
+# Post Project Setup
+# Move to home directory and create server directory.
+# Copy files last to help with caching since they change the most.
 WORKDIR /home/papermc
-COPY init.sh start.sh ./
 RUN mkdir /minecraft
+COPY init.sh start.sh ./
 
 # Start Script
 CMD ["sh", "init.sh"]
 
-# Container setup
+# Volume Setup
 VOLUME /home/papermc/minecraft
+
+# Expose Ports
+# Minecraft Java uses TCP and not UDP, but opening UDP just in case.
 EXPOSE 25565/tcp
 EXPOSE 25565/udp
