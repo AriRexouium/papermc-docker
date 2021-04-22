@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env sh
+# -*- coding: utf-8 -*-
 
 # Enter server directory.
 cd minecraft
