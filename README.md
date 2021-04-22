@@ -1,7 +1,7 @@
 # PaperMC Docker
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/aceheliflyer/papermc-docker/Deployment?style=for-the-badge)
-![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/aceheliflyer/papermc?style=for-the-badge)
-![Docker Pulls](https://img.shields.io/docker/pulls/aceheliflyer/papermc?style=for-the-badge)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/aceheliflyer/papermc-docker/Deployment?style=for-the-badge)](https://github.com/Aceheliflyer/papermc-docker/actions/workflows/deploy.yml "GitHub Workflow Status")
+[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/aceheliflyer/papermc/latest?style=for-the-badge)](https://hub.docker.com/r/aceheliflyer/papermc/tags?name=latest "Docker Image Size (tag)")
+[![Docker Pulls](https://img.shields.io/docker/pulls/aceheliflyer/papermc?style=for-the-badge)](https://hub.docker.com/r/aceheliflyer/papermc "Docker Pulls")
 
 This creates and initiates a PaperMC Minecraft server inside a Docker container.
 
@@ -11,8 +11,8 @@ This creates and initiates a PaperMC Minecraft server inside a Docker container.
 
 ## Quick Start
 Here's how to get an extremely basic server up and running.
-It'll automatically handle shutdowns, restarts, and crashes by default.
-The server files will be mapped to your home directory in a folder called "minecraft".
+To attach to the terminal refer to [the following](#Attach-to-the-Terminal).
+
 ```powershell
 docker run \
   -tidv $HOME/minecraft:/home/papermc/minecraft \
@@ -53,14 +53,16 @@ If for whatever reason you need to access the shell of the container,
 you can use `docker exec -it PaperMC_Server ash`. To exit simply type `exit`
 (although if you're accessing the shell, you probably know what you're doing).
 
-### Enable RCON
-Assuming your data is bind-mounted, delete your container with `docker container rm PaperMC_Server`.
+### Open More Ports (For RCON, Dynmap, etc.)
+For this example, we'll be opening ports for RCON.
+Delete your container with `docker container rm PaperMC_Server`.
+Your server files will not be deleted since they are saved inside of a volume or a bind-mount depending on what you specified previously.
 Re-run the command you used to create your server but add `-p 25575:25575/tcp` to it.
 Ideally the first number (the exposed host port) can be set to whatever you want, such as `-p 6789:25565/tcp`.
 This also applies if you're trying to add a plugin that requires an open port such
 as Dynmap or if you simply want to run your server on a port other than 25565.
 
-Here's an example with open ports for RCON & Dynmap.
+Here's an example with open ports for RCON & Dynmap:
 ```powershell
 docker run \
   -tidv $HOME/minecraft:/home/papermc/minecraft \
