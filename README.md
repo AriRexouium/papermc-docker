@@ -15,7 +15,7 @@ To attach to the terminal refer to [the following](#Attach-to-the-Terminal).
 
 ```powershell
 docker run \
-  -tidv $HOME/minecraft:/home/papermc/minecraft \
+  -tidv $HOME/minecraft:/home/paper/minecraft \
   -p 25565:25565/tcp \
   --name "PaperMC_Server" \
   aceheliflyer/papermc:latest
@@ -26,7 +26,7 @@ docker run \
 |:-:|:-:|:-:|
 | `-it` | Yes | Creates an interactive terminal to the container. |
 | `-d` | Yes | Detaches the server from the terminal to allow it to run in the background. |
-| `-v` | `-v $HOME/minecraft:/home/papermc/minecraft` | The bind mount or volume where you want to store the server files. |
+| `-v` | `-v $HOME/minecraft:/home/paper/minecraft` | The bind mount or volume where you want to store the server files. |
 | `-p` | `-p 25565:25565/tcp` | The exposed port to allow incoming connections to the server. |
 | `--name` | `--name "PaperMC_Server"` | The name of the container for the server. This can always be changed later. |
 
@@ -65,7 +65,7 @@ as Dynmap or if you simply want to run your server on a port other than 25565.
 Here's an example with open ports for RCON & Dynmap:
 ```powershell
 docker run \
-  -tidv $HOME/minecraft:/home/papermc/minecraft \
+  -tidv $HOME/minecraft:/home/paper/minecraft \
   -p 25565:25565/tcp \ # Default Minecraft Port
   -p 25575:25575/tcp \ # The default RCON Port
   -p 8123:8123/tcp \ # The Default Dynmap Port
