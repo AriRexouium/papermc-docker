@@ -40,7 +40,7 @@ ENV \
 RUN \
   apk update \
   && apk upgrade --no-cache \
-  && apk add --no-cache jq openjdk11-jre-headless \
+  && apk add --no-cache openjdk11-jre-headless jq tini \
   && adduser -D paper paper
 
 # Post Project Setup
@@ -52,6 +52,7 @@ RUN mkdir minecraft
 COPY init.sh start.sh ./
 
 # Container Setup
+ENTRYPOINT ["tini", "--"]
 CMD ["sh", "init.sh"]
 VOLUME /home/paper/minecraft
 EXPOSE 25565/tcp
