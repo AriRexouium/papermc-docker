@@ -26,12 +26,27 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - # https://github.com/marketplace/actions/build-and-push-docker-images
-        name: Build and Push
+      # https://github.com/marketplace/actions/build-and-push-docker-images
+      - # Image for Latest and openjdk11.
+        name: Build and Push Java 11
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: aceheliflyer/papermc:latest
+          tags: |
+            aceheliflyer/papermc:latest
+            aceheliflyer/papermc:openjdk11
           platforms: linux/amd64,linux/arm64
-          cache-from: type=registry,ref=aceheliflyer/papermc:latest
+          build-args: JAVA_VERSION=openjdk11-jre-headless
+          cache-from: type=registry,ref=aceheliflyer/papermc:openjdk11
+          cache-to: type=inline
+
+      - # Image for openjdk8.
+        name: Build and Push Java 8
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: aceheliflyer/papermc:openjdk8
+          platforms: linux/amd64,linux/arm64
+          build-args: JAVA_VERSION=openjdk8-jre-base
+          cache-from: type=registry,ref=aceheliflyer/papermc:openjdk8
           cache-to: type=inline

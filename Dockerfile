@@ -3,6 +3,9 @@
 FROM alpine:latest
 LABEL maintainer="jarrett.aiken@achl.fr"
 
+# Set Build Variables
+ARG JAVA_VERSION="openjdk11-jre-headless"
+
 # Set Environment Variables
 # Default Java args are from Aikar. https://mcflags.emc.gs
 ENV \
@@ -40,7 +43,7 @@ ENV \
 RUN \
   apk update \
   && apk upgrade --no-cache \
-  && apk add --no-cache openjdk11-jre-headless jq tini \
+  && apk add --no-cache ${JAVA_VERSION} jq tini \
   && adduser -D paper paper
 
 # Post Project Setup
