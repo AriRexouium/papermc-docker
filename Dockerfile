@@ -1,10 +1,10 @@
 # Fetch Image
 # Using alpine over openjdk for a much smaller image.
-FROM alpine:latest
+FROM alpine:3.14
 LABEL maintainer="jarrett.aiken@achl.fr"
 
 # Set Build Variables
-ARG JAVA_VERSION="openjdk11-jre-headless"
+ARG JAVA_VERSION="openjdk16-jre-headless"
 
 # Set Environment Variables
 # Default Java args are from Aikar. https://mcflags.emc.gs
@@ -41,8 +41,9 @@ ENV \
 # since Busybox has its own version of wget.
 # Also setup paper user.
 RUN \
-  apk update \
-  && apk upgrade --no-cache \
+  sed -i 's/v3.14/edge/g' /etc/apk/repositories \
+  && echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+  && apk -U upgrade --no-cache \
   && apk add --no-cache ${JAVA_VERSION} jq tini \
   && adduser -D paper paper
 

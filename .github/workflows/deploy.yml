@@ -27,14 +27,25 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # https://github.com/marketplace/actions/build-and-push-docker-images
-      - # Image for Latest and openjdk11.
-        name: Build and Push Java 11
+      - # Image for Latest and openjdk16.
+        name: Build and Push Java 16
         uses: docker/build-push-action@v2
         with:
           push: true
           tags: |
             aceheliflyer/papermc:latest
-            aceheliflyer/papermc:openjdk11
+            aceheliflyer/papermc:openjdk16
+          platforms: linux/amd64,linux/arm64
+          build-args: JAVA_VERSION=openjdk16-jre-headless
+          cache-from: type=registry,ref=aceheliflyer/papermc:openjdk16
+          cache-to: type=inline
+
+      - # Image for openjdk11.
+        name: Build and Push Java 11
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: aceheliflyer/papermc:openjdk11
           platforms: linux/amd64,linux/arm64
           build-args: JAVA_VERSION=openjdk11-jre-headless
           cache-from: type=registry,ref=aceheliflyer/papermc:openjdk11
