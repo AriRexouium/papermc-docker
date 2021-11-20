@@ -4,7 +4,7 @@ FROM alpine:3.14
 LABEL maintainer="jarrett.aiken@achl.fr"
 
 # Set Build Variables
-ARG JAVA_VERSION="openjdk16-jre-headless"
+ARG JAVA_VERSION="openjdk17-jre-headless"
 
 # Set Environment Variables
 # Default Java args are from Aikar. https://mcflags.emc.gs
