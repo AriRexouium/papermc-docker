@@ -1,8 +1,12 @@
 # PaperMC Docker
 
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/aceheliflyer/papermc-docker/deploy.yml?style=for-the-badge)](https://github.com/Aceheliflyer/papermc-docker/actions/workflows/deploy.yml "GitHub Workflow Status")
+[![OpenJDK17 Build](https://img.shields.io/github/actions/workflow/status/aceheliflyer/papermc-docker/openjdk17.yml?label=OpenJDK17&style=for-the-badge)](https://github.com/Aceheliflyer/papermc-docker/actions/workflows/openjdk17.yml "OpenJDK17 Build")
+[![OpenJDK11 Build](https://img.shields.io/github/actions/workflow/status/aceheliflyer/papermc-docker/openjdk11.yml?label=OpenJDK11&style=for-the-badge)](https://github.com/Aceheliflyer/papermc-docker/actions/workflows/openjdk11.yml "OpenJDK11 Build")
+[![OpenJDK8 Build](https://img.shields.io/github/actions/workflow/status/aceheliflyer/papermc-docker/openjdk8.yml?label=OpenJDK8&style=for-the-badge)](https://github.com/Aceheliflyer/papermc-docker/actions/workflows/openjdk8.yml "OpenJDK8 Build")
+
 [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/aceheliflyer/papermc/latest?style=for-the-badge)](https://hub.docker.com/r/aceheliflyer/papermc/tags?name=latest "Docker Image Size (tag)")
 [![Docker Pulls](https://img.shields.io/docker/pulls/aceheliflyer/papermc?style=for-the-badge)](https://hub.docker.com/r/aceheliflyer/papermc "Docker Pulls")
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/Aceheliflyer/papermc-docker?style=for-the-badge)](https://github.com/Aceheliflyer/papermc-docker/commits "GitHub Last Commit")
 
 This creates and initiates a PaperMC Minecraft server inside a Docker container.
 
