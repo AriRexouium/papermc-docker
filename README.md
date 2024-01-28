@@ -1,12 +1,12 @@
 # PaperMC Docker
 
-[![OpenJDK17 Build](https://img.shields.io/github/actions/workflow/status/aceheliflyer/papermc-docker/openjdk17.yml?label=OpenJDK17&style=for-the-badge)](https://github.com/Aceheliflyer/papermc-docker/actions/workflows/openjdk17.yml "OpenJDK17 Build")
-[![OpenJDK11 Build](https://img.shields.io/github/actions/workflow/status/aceheliflyer/papermc-docker/openjdk11.yml?label=OpenJDK11&style=for-the-badge)](https://github.com/Aceheliflyer/papermc-docker/actions/workflows/openjdk11.yml "OpenJDK11 Build")
-[![OpenJDK8 Build](https://img.shields.io/github/actions/workflow/status/aceheliflyer/papermc-docker/openjdk8.yml?label=OpenJDK8&style=for-the-badge)](https://github.com/Aceheliflyer/papermc-docker/actions/workflows/openjdk8.yml "OpenJDK8 Build")
+[![OpenJDK17 Build](https://img.shields.io/github/actions/workflow/status/arirexouium/papermc-docker/openjdk17.yml?label=OpenJDK17&style=for-the-badge)](https://github.com/AriRexouium/papermc-docker/actions/workflows/openjdk17.yml "OpenJDK17 Build")
+[![OpenJDK11 Build](https://img.shields.io/github/actions/workflow/status/arirexouium/papermc-docker/openjdk11.yml?label=OpenJDK11&style=for-the-badge)](https://github.com/AriRexouium/papermc-docker/actions/workflows/openjdk11.yml "OpenJDK11 Build")
+[![OpenJDK8 Build](https://img.shields.io/github/actions/workflow/status/arirexouium/papermc-docker/openjdk8.yml?label=OpenJDK8&style=for-the-badge)](https://github.com/AriRexouium/papermc-docker/actions/workflows/openjdk8.yml "OpenJDK8 Build")
 
 [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/aceheliflyer/papermc/latest?style=for-the-badge)](https://hub.docker.com/r/aceheliflyer/papermc/tags?name=latest "Docker Image Size (tag)")
 [![Docker Pulls](https://img.shields.io/docker/pulls/aceheliflyer/papermc?style=for-the-badge)](https://hub.docker.com/r/aceheliflyer/papermc "Docker Pulls")
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/Aceheliflyer/papermc-docker?style=for-the-badge)](https://github.com/Aceheliflyer/papermc-docker/commits "GitHub Last Commit")
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/arirexouium/papermc-docker?style=for-the-badge)](https://github.com/AriRexouium/papermc-docker/commits "GitHub Last Commit")
 
 This creates and initiates a PaperMC Minecraft server inside a Docker container.
 
@@ -86,7 +86,7 @@ docker run \
 
 ## Notable Links
 
-- [GitHub Repository](https://github.com/Aceheliflyer/papermc-docker "Aceheliflyer/papermc-docker")
+- [GitHub Repository](https://github.com/AriRexouium/papermc-docker "AriRexouium/papermc-docker")
 - [Docker Hub Repository](https://hub.docker.com/r/aceheliflyer/papermc "aceheliflyer/papermc")
 - [Phyremaster/papermc-docker]
 - [Aikar's Flags]
@@ -94,12 +94,12 @@ docker run \
 ---
 
 <div align="center">
-  <a href="https://github.com/Aceheliflyer/papermc-docker/blob/master/LICENSE.txt" title="License">
-    <img src="https://img.shields.io/github/license/Aceheliflyer/papermc-docker?style=for-the-badge" alt="License">
+  <a href="https://github.com/AriRexouium/papermc-docker/blob/master/LICENSE.txt" title="License">
+    <img src="https://img.shields.io/github/license/arirexouium/papermc-docker?style=for-the-badge" alt="License">
   </a>
 </div>
 
 <!-- Links and what not. -->
 [Phyremaster/papermc-docker]: <https://github.com/Phyremaster/papermc-docker> (Phyremaster's PaperMC Docker)
-[View Dockerfile]: <https://github.com/Aceheliflyer/papermc-docker/blob/master/Dockerfile#L13-L33> (Dockerfile)
+[View Dockerfile]: <https://github.com/AriRexouium/papermc-docker/blob/master/Dockerfile#L13-L33> (Dockerfile)
 [Aikar's Flags]: <https://mcflags.emc.gs> (Garbage Collector Flags for Minecraft)
