@@ -6,7 +6,7 @@ cd minecraft
 
 # Handle Minecraft Version Validation #########################################
 # Fetch latest version of Minecraft if version isn't specified.
-urlPrefix="https://papermc.io/api/v2/projects/paper"
+urlPrefix="https://api.papermc.io/v2/projects/paper"
 if [ ${MINECRAFT_VERSION} = latest ]; then
   MINECRAFT_VERSION="$(wget -qO - ${urlPrefix} | jq -r '.versions[-1]')"
 
