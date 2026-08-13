@@ -6,6 +6,9 @@ on:
       - 'master'
   workflow_dispatch:
 
+env:
+  DOCKERHUB_PROJECT: aceheliflyer/papermc
+
 jobs:
   docker:
     name: Build and Push ${{ matrix.java-version }}
@@ -16,24 +19,24 @@ jobs:
           - java-version: openjdk25
             java-package: openjdk25-jre-headless
             tags: |
-              aceheliflyer/papermc:latest
-              aceheliflyer/papermc:openjdk25
+              ${{ env.DOCKERHUB_PROJECT }}:latest
+              ${{ env.DOCKERHUB_PROJECT }}:openjdk25
             description: OpenJDK25 build for newer versions.
           - java-version: openjdk21
             java-package: openjdk21-jre-headless
-            tags: aceheliflyer/papermc:openjdk21
+            tags: ${{ env.DOCKERHUB_PROJECT }}:openjdk21
             description: OpenJDK21 build for older versions.
           - java-version: openjdk17
             java-package: openjdk17-jre-headless
-            tags: aceheliflyer/papermc:openjdk17
+            tags: ${{ env.DOCKERHUB_PROJECT }}:openjdk17
             description: OpenJDK17 build for older versions.
           - java-version: openjdk11
             java-package: openjdk11-jre-headless
-            tags: aceheliflyer/papermc:openjdk11
+            tags: ${{ env.DOCKERHUB_PROJECT }}:openjdk11
             description: OpenJDK11 build for older versions.
           - java-version: openjdk8
             java-package: openjdk8-jre-base
-            tags: aceheliflyer/papermc:openjdk8
+            tags: ${{ env.DOCKERHUB_PROJECT }}:openjdk8
             description: OpenJDK8 build for older versions.
     steps:
       # https://github.com/marketplace/actions/docker-setup-qemu
@@ -51,6 +54,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
       # https://github.com/marketplace/actions/build-and-push-docker-images
       - name: Build and Push ${{ matrix.java-version }}
         uses: docker/build-push-action@v7
@@ -59,5 +69,11 @@ jobs:
           tags: ${{ matrix.tags }}
           platforms: linux/amd64,linux/arm64
           build-args: JAVA_VERSION=${{ matrix.java-package }}
-          cache-from: type=registry,ref=aceheliflyer/papermc:${{ matrix.java-version }}
-          cache-to: type=inline
+          cache-from: type=registry,ref=${{ env.DOCKERHUB_PROJECT }}:${{ matrix.java-version }}
+          cache-to: type=registry,ref=${{ env.DOCKERHUB_PROJECT }}:${{ matrix.java-version }},mode=max
+
+      - name: Push image to GHCR
+        run: |
+          docker buildx imagetools create \
+            --tag ghcr.io/${{ github.GITHUB_REPOSITORY }}:${{ matrix.java-version }} \
+            ${{ env.DOCKERHUB_PROJECT }}:${{ matrix.java-version }}
