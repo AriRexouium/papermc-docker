@@ -1,10 +1,10 @@
-# Fetch Image
-# Using alpine over openjdk for a much smaller image.
+# Set & Fetch Java
+ARG JAVA_VERSION="25-jre-alpine"
+FROM eclipse-temurin:${JAVA_VERSION} AS java-build
+
+# Setup prod environment with alpine for smallest possible footprint.
 FROM alpine:latest
 LABEL maintainer="jarrett.aiken@achl.fr"
-
-# Set Build Variables
-ARG JAVA_VERSION="openjdk25-jre-headless"
 
 # Set Environment Variables
 # Default Java args are from Aikar. https://mcflags.emc.gs
@@ -14,6 +14,7 @@ ENV \
   MIN_MEMORY="512M" \
   MAX_MEMORY="1G" \
   RESTART_ON_CRASH="true" \
+  JAVA_HOME=/opt/java/openjdk \
   JAVA_ARGS=" \
     -XX:+UseG1GC \
     -XX:+ParallelRefProcEnabled \
@@ -35,6 +36,7 @@ ENV \
     -XX:MaxTenuringThreshold=1 \
     -Dusing.aikars.flags=https://mcflags.emc.gs \
     -Daikars.new.flags=true"
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 # Upgrade System and Install Dependencies
 # Since Alpine comes with Busybox, wget is not needed
@@ -42,7 +44,7 @@ ENV \
 # Also setup paper user.
 RUN \
   apk -U upgrade --no-cache \
-  && apk add --no-cache ${JAVA_VERSION} jq tini \
+  && apk add --no-cache jq tini \
   && adduser -D paper paper
 
 # Post Project Setup
@@ -51,6 +53,7 @@ RUN \
 USER paper
 WORKDIR /home/paper
 RUN mkdir minecraft
+COPY --from=java-build $JAVA_HOME $JAVA_HOME
 COPY src/* ./
 
 # Container Setup

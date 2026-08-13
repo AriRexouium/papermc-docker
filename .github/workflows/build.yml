@@ -8,32 +8,32 @@ on:
 
 jobs:
   docker:
-    name: Build and Push ${{ matrix.java-version }}
+    name: Build and Push ${{ matrix.image-version }}
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         include:
-          - java-version: openjdk25
-            java-package: openjdk25-jre-headless
+          - image-version: openjdk25
+            java-version: 25-jre-alpine
             tags: |
               aceheliflyer/papermc:latest
               aceheliflyer/papermc:openjdk25
             description: OpenJDK25 build for newer versions.
-          - java-version: openjdk21
-            java-package: openjdk21-jre-headless
+          - image-version: openjdk21
+            java-version: 21-jre-alpine
             tags: aceheliflyer/papermc:openjdk21
             description: OpenJDK21 build for older versions.
-          - java-version: openjdk17
-            java-package: openjdk17-jre-headless
+          - image-version: openjdk17
+            java-version: 17-jre-alpine
             tags: aceheliflyer/papermc:openjdk17
             description: OpenJDK17 build for older versions.
-          - java-version: openjdk11
-            java-package: openjdk11-jre-headless
+          - image-version: openjdk11
+            java-version: 11-jre-alpine
             tags: aceheliflyer/papermc:openjdk11
             description: OpenJDK11 build for older versions.
-          - java-version: openjdk8
-            java-package: openjdk8-jre-base
+          - image-version: openjdk8
+            java-version: 8-jre-alpine
             tags: aceheliflyer/papermc:openjdk8
             description: OpenJDK8 build for older versions.
 
@@ -61,18 +61,12 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
 
       # https://github.com/marketplace/actions/build-and-push-docker-images
-      - name: Build and Push ${{ matrix.java-version }}
+      - name: Build and Push ${{ matrix.image-version }}
         uses: docker/build-push-action@v7
         with:
           push: true
           tags: ${{ matrix.tags }}
-          platforms: linux/amd64,linux/arm64
-          build-args: JAVA_VERSION=${{ matrix.java-package }}
-          cache-from: type=registry,ref=aceheliflyer/papermc:${{ matrix.java-version }}
-          cache-to: type=registry,ref=aceheliflyer/papermc:${{ matrix.java-version }},mode=max
-
-      # - name: Push image to GHCR
-      #   run: |
-      #     docker buildx imagetools create \
-      #       --tag ghcr.io/${{ github.github_repository }}:${{ matrix.java-version }} \
-      #       aceheliflyer/papermc:${{ matrix.java-version }}
+          platforms: linux/amd64
+          build-args: JAVA_VERSION=${{ matrix.java-version }}
+          cache-from: type=registry,ref=aceheliflyer/papermc:${{ matrix.image-version }}
+          cache-to: type=inline
