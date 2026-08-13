@@ -71,8 +71,8 @@ jobs:
           cache-from: type=registry,ref=aceheliflyer/papermc:${{ matrix.java-version }}
           cache-to: type=registry,ref=aceheliflyer/papermc:${{ matrix.java-version }},mode=max
 
-      - name: Push image to GHCR
-        run: |
-          docker buildx imagetools create \
-            --tag ghcr.io/${{ github.github_repository }}:${{ matrix.java-version }} \
-            aceheliflyer/papermc:${{ matrix.java-version }}
+      # - name: Push image to GHCR
+      #   run: |
+      #     docker buildx imagetools create \
+      #       --tag ghcr.io/${{ github.github_repository }}:${{ matrix.java-version }} \
+      #       aceheliflyer/papermc:${{ matrix.java-version }}
