@@ -1,5 +1,3 @@
-
-
 # PaperMC Docker
 
 [![OpenJDK17 Build](https://img.shields.io/github/actions/workflow/status/arirexouium/papermc-docker/openjdk17.yml?label=OpenJDK17&style=for-the-badge)](https://github.com/AriRexouium/papermc-docker/actions/workflows/openjdk17.yml "OpenJDK17 Build")
@@ -29,7 +27,7 @@ docker run \
   aceheliflyer/papermc:latest
 ```
 
-> **Note:** The `latest` tag is built with OpenJDK 17 for newer Minecraft versions. For older versions, use the `openjdk11` or `openjdk8` tags.
+> **Note:** The `latest` tag is built with OpenJDK 25 for newer Minecraft versions. For older versions, use previous LTS tags.
 
 ## Options
 

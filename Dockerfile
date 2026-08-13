@@ -51,7 +51,7 @@ RUN \
 USER paper
 WORKDIR /home/paper
 RUN mkdir minecraft
-COPY init.sh start.sh ./
+COPY src/init.sh src/start.sh ./
 
 # Container Setup
 ENTRYPOINT ["tini", "--"]

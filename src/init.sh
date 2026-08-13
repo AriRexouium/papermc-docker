@@ -4,7 +4,7 @@
 # Enter server directory.
 cd minecraft
 
-# Handle Minecraft Version Validation #########################################
+# Handle Minecraft Version Validation ##########################################
 # Fetch latest version of Minecraft if version isn't specified.
 urlPrefix="https://api.papermc.io/v2/projects/paper"
 if [ ${MINECRAFT_VERSION} = latest ]; then
@@ -16,7 +16,7 @@ elif [ $(wget -qO - ${urlPrefix} | jq ".versions | index(\"${MINECRAFT_VERSION}\
   exit 1
 fi
 
-# Handle PaperMC Build Validation #############################################
+# Handle PaperMC Build Validation ##############################################
 # Fetch latest version of PaperMC if version isn't specified.
 urlPrefix="${urlPrefix}/versions/${MINECRAFT_VERSION}"
 if [ ${PAPER_BUILD} = latest ]; then
@@ -28,7 +28,7 @@ elif [ $(wget -qO - ${urlPrefix} | jq ".builds | index(${PAPER_BUILD})") = null 
   exit 1
 fi
 
-# Handle Installation & Updating ##############################################
+# Handle Installation & Updating ###############################################
 jarFile="paper-${MINECRAFT_VERSION}-${PAPER_BUILD}.jar"
 # Check to see if the specified jar file exists.
 # If it doesn't exist delete all old jar files and download specified version.
@@ -37,7 +37,7 @@ if [ ! -e ${jarFile} ]; then
   wget "${urlPrefix}/builds/${PAPER_BUILD}/downloads/${jarFile}"
 fi
 
-# Handle eula.txt File ########################################################
+# Handle eula.txt File #########################################################
 # If the eula confirmation doesn't exist, start the server to
 # generate it and then accept the eula after the server has closed.
 if [ ! -e eula.txt ]; then
@@ -45,7 +45,7 @@ if [ ! -e eula.txt ]; then
   sed -i 's/false/true/g' eula.txt
 fi
 
-# Handle Startup, Restart, Shutdown, and Crashes###############################
+# Handle Startup, Restart, Shutdown, and Crashes################################
 # Explaination:
 
 # Startup:
