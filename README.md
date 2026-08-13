@@ -1,9 +1,5 @@
 # PaperMC Docker
 
-[![OpenJDK17 Build](https://img.shields.io/github/actions/workflow/status/arirexouium/papermc-docker/openjdk17.yml?label=OpenJDK17&style=for-the-badge)](https://github.com/AriRexouium/papermc-docker/actions/workflows/openjdk17.yml "OpenJDK17 Build")
-[![OpenJDK11 Build](https://img.shields.io/github/actions/workflow/status/arirexouium/papermc-docker/openjdk11.yml?label=OpenJDK11&style=for-the-badge)](https://github.com/AriRexouium/papermc-docker/actions/workflows/openjdk11.yml "OpenJDK11 Build")
-[![OpenJDK8 Build](https://img.shields.io/github/actions/workflow/status/arirexouium/papermc-docker/openjdk8.yml?label=OpenJDK8&style=for-the-badge)](https://github.com/AriRexouium/papermc-docker/actions/workflows/openjdk8.yml "OpenJDK8 Build")
-
 [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/aceheliflyer/papermc/latest?style=for-the-badge)](https://hub.docker.com/r/aceheliflyer/papermc/tags?name=latest "Docker Image Size (tag)")
 [![Docker Pulls](https://img.shields.io/docker/pulls/aceheliflyer/papermc?style=for-the-badge)](https://hub.docker.com/r/aceheliflyer/papermc "Docker Pulls")
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/arirexouium/papermc-docker?style=for-the-badge)](https://github.com/AriRexouium/papermc-docker/commits "GitHub Last Commit")
