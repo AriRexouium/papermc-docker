@@ -1,3 +1,5 @@
+
+
 # PaperMC Docker
 
 [![OpenJDK17 Build](https://img.shields.io/github/actions/workflow/status/arirexouium/papermc-docker/openjdk17.yml?label=OpenJDK17&style=for-the-badge)](https://github.com/AriRexouium/papermc-docker/actions/workflows/openjdk17.yml "OpenJDK17 Build")
@@ -19,13 +21,15 @@ This creates and initiates a PaperMC Minecraft server inside a Docker container.
 Here's how to get an extremely basic server up and running.
 To attach to the terminal refer to [the following](#attach-to-the-terminal).
 
-```powershell
+```bash
 docker run \
   -tidv $HOME/minecraft:/home/paper/minecraft \
   -p 25565:25565/tcp \
   --name "PaperMC_Server" \
   aceheliflyer/papermc:latest
 ```
+
+> **Note:** The `latest` tag is built with OpenJDK 17 for newer Minecraft versions. For older versions, use the `openjdk11` or `openjdk8` tags.
 
 ## Options
 
@@ -74,7 +78,7 @@ as Dynmap or if you simply want to run your server on a port other than 25565.
 
 Here's an example with open ports for RCON & Dynmap:
 
-```powershell
+```bash
 docker run \
   -tidv $HOME/minecraft:/home/paper/minecraft \
   -p 25565:25565/tcp \ # Default Minecraft Port
