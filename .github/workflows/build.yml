@@ -3,13 +3,14 @@ name: Docker Hub Publish
 on:
   push:
     branches:
-      - 'master'
+      - master
   workflow_dispatch:
 
 jobs:
   docker:
     name: Build and Push ${{ matrix.java-version }}
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         include:
@@ -35,6 +36,7 @@ jobs:
             java-package: openjdk8-jre-base
             tags: aceheliflyer/papermc:openjdk8
             description: OpenJDK8 build for older versions.
+
     steps:
       # https://github.com/marketplace/actions/docker-setup-qemu
       - name: Set up QEMU
