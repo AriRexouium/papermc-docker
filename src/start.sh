@@ -1,5 +1,6 @@
-#!/usr/bin/env sh
-# -*- coding: utf-8 -*-
+#!/usr/bin/env bash
+
+set -euo pipefail
 
 # Do not edit or delete this file! When the `/restart` command is called,
 # Minecraft tries to call the `start.sh` file in the root directory of the

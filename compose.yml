@@ -7,6 +7,9 @@ services:
     image: aceheliflyer/papermc:openjdk25
     volumes:
       - ./minecraft:/home/paper/minecraft
+    # environment:
+    #   MINECRAFT_VERSION: "26.2"
+    #   MAX_MEMORY: "10G"
     ports:
       - '0.0.0.0:25565:25565/tcp'
     <<: *base
