@@ -1,10 +1,12 @@
+# Grab Azul Zulu Java Docker image
+# as the work is already completed for us.
 ARG JAVA_VERSION="25"
 FROM azul-zulu:${JAVA_VERSION}-jre-headless-alpine AS java-build
 
+# Start creating the production image.
 FROM alpine:latest AS prod-build
 ARG JAVA_VERSION="25"
 
-# Set Environment Variables
 # Default Java args are from Aikar. https://mcflags.emc.gs
 ENV \
   MINECRAFT_VERSION="latest" \
@@ -36,25 +38,18 @@ ENV \
     -Daikars.new.flags=true"
 ENV PATH="$JAVA_HOME/bin:$PATH"
 
-# Upgrade System and Install Dependencies
-# Since Alpine comes with Busybox, wget is not needed
-# since Busybox has its own version of wget.
-# Also setup paper user.
+# Add project dependencies. Busybox has own wget module.
+# Adding user to avoid root usage.
 RUN \
-  apk -U upgrade --no-cache; \
   apk add --no-cache jq tini; \
   adduser -D paper paper
 
-# Post Project Setup
-# Switch to paper user, move to home directory, and create server directory.
-# Copy files last to help with caching since they change the most.
 USER paper
 WORKDIR /home/paper
 RUN mkdir minecraft
 COPY --from=java-build $JAVA_HOME $JAVA_HOME
 COPY src/* ./
 
-# Container Setup
 ENTRYPOINT ["tini", "--"]
 CMD ["sh", "init.sh"]
 VOLUME /home/paper/minecraft
