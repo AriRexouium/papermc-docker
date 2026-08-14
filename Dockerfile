@@ -2,17 +2,17 @@
 # Set & Fetch Java
 FROM alpine:latest AS download-temurin
 
-ENV \
-  JAVA_VERSION="25" \
-  JAVA_HOME="/opt/java/openjdk"
+ARG JAVA_VERSION="25"
+ENV JAVA_HOME="/opt/java/openjdk"
+ENV PATH="$JAVA_HOME/bin:$PATH"
 
 RUN \
   cd ~; \
   apk -U upgrade --no-cache; \
   apk add --no-cache curl gnupg; \
 
-  API_URL="https://api.adoptium.net/v3/binary/latest/${JAVA_VERSION}/ga/alpine-linux/$(apk --print-arch)/jre/hotspot/normal/eclipse"; \
-  FETCH_URL=$(curl -s -w %{redirect_url} "${API_URL}"); \
+  API_URL="https://api.adoptium.net/v3/binary/latest/$JAVA_VERSION/ga/alpine-linux/$(apk --print-arch)/jre/hotspot/normal/eclipse"; \
+  FETCH_URL=$(curl -s -w %{redirect_url} "$API_URL"); \
   curl -fsSLo openjdk.tar.gz $FETCH_URL; \
   curl -fsSLo openjdk.tar.gz.sig $FETCH_URL.sig; \
 
@@ -21,7 +21,8 @@ RUN \
   # gpg --verify openjdk.tar.gz.sig openjdk.tar.gz; \
 
   mkdir -p "$JAVA_HOME"; \
-  tar -xf openjdk.tar.gz -C $JAVA_HOME --strip-components=1 --no-same-owner
+  tar -xf openjdk.tar.gz -C $JAVA_HOME --strip-components=1 --no-same-owner; \
+  java -version
 
 ########################################################################################################################
 
@@ -57,7 +58,7 @@ ENV \
     -XX:MaxTenuringThreshold=1 \
     -Dusing.aikars.flags=https://mcflags.emc.gs \
     -Daikars.new.flags=true"
-ENV PATH="${JAVA_HOME}/bin:${PATH}"
+ENV PATH="$JAVA_HOME/bin:$PATH"
 
 # Upgrade System and Install Dependencies
 # Since Alpine comes with Busybox, wget is not needed
