@@ -10,6 +10,10 @@ jobs:
   dockerImagePublish:
     name: Build and Push ${{ matrix.image-tag }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
 
     strategy:
       matrix:
@@ -21,32 +25,32 @@ jobs:
             tags: |
               aceheliflyer/papermc:latest
               aceheliflyer/papermc:openjdk25
-              ghcr.io/AriRexouium/papermc-docker:latest
-              ghcr.io/AriRexouium/papermc-docker:openjdk25
+              ghcr.io/arirexouium/papermc-docker:latest
+              ghcr.io/arirexouium/papermc-docker:openjdk25
             description: OpenJDK25 build for newer versions.
           - image-tag: openjdk21
             java-version: 21
             tags: |
               aceheliflyer/papermc:openjdk21
-              ghcr.io/AriRexouium/papermc-docker:openjdk21
+              ghcr.io/arirexouium/papermc-docker:openjdk21
             description: OpenJDK21 build for older versions.
           - image-tag: openjdk17
             java-version: 17
             tags: |
               aceheliflyer/papermc:openjdk17
-              ghcr.io/AriRexouium/papermc-docker:openjdk17
+              ghcr.io/arirexouium/papermc-docker:openjdk17
             description: OpenJDK17 build for older versions.
           - image-tag: openjdk11
             java-version: 11
             tags: |
               aceheliflyer/papermc:openjdk11
-              ghcr.io/AriRexouium/papermc-docker:openjdk11
+              ghcr.io/arirexouium/papermc-docker:openjdk11
             description: OpenJDK11 build for older versions.
           - image-tag: openjdk8
             java-version: 8
             tags: |
               aceheliflyer/papermc:openjdk8
-              ghcr.io/AriRexouium/papermc-docker:openjdk8
+              ghcr.io/arirexouium/papermc-docker:openjdk8
             description: OpenJDK8 build for older versions.
 
     steps:
@@ -62,7 +66,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       # https://github.com/marketplace/actions/docker-setup-qemu
       - name: Set up QEMU
