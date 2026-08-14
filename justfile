@@ -5,3 +5,6 @@ build:
 
 build-nc:
   docker build --no-cache -t papermc-docker .
+
+test:
+  act -j dockerImagePublish

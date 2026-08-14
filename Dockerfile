@@ -1,10 +1,31 @@
-# Set & Fetch Java
-ARG JAVA_VERSION="25-jre-alpine"
-FROM eclipse-temurin:${JAVA_VERSION} AS java-build
 
-# Setup prod environment with alpine for smallest possible footprint.
-FROM alpine:latest
-LABEL maintainer="jarrett.aiken@achl.fr"
+# Set & Fetch Java
+FROM alpine:latest AS download-temurin
+
+ENV \
+  JAVA_VERSION="25" \
+  JAVA_HOME="/opt/java/openjdk"
+
+RUN \
+  cd ~; \
+  apk -U upgrade --no-cache; \
+  apk add --no-cache curl gnupg; \
+
+  API_URL="https://api.adoptium.net/v3/binary/latest/${JAVA_VERSION}/ga/alpine-linux/$(apk --print-arch)/jre/hotspot/normal/eclipse"; \
+  FETCH_URL=$(curl -s -w %{redirect_url} "${API_URL}"); \
+  curl -fsSLo openjdk.tar.gz $FETCH_URL; \
+  curl -fsSLo openjdk.tar.gz.sig $FETCH_URL.sig; \
+
+  # For some reason this freezes after finishing, I literally can't figure out why.
+  # gpg --batch --keyserver keyserver.ubuntu.com --recv-keys 3B04D753C9050D9A5D343F39843C48A565F8F04B; \
+  # gpg --verify openjdk.tar.gz.sig openjdk.tar.gz; \
+
+  mkdir -p "$JAVA_HOME"; \
+  tar -xf openjdk.tar.gz -C $JAVA_HOME --strip-components=1 --no-same-owner
+
+########################################################################################################################
+
+FROM alpine:latest AS build-environment
 
 # Set Environment Variables
 # Default Java args are from Aikar. https://mcflags.emc.gs
@@ -14,7 +35,7 @@ ENV \
   MIN_MEMORY="512M" \
   MAX_MEMORY="1G" \
   RESTART_ON_CRASH="true" \
-  JAVA_HOME=/opt/java/openjdk \
+  JAVA_HOME="/opt/java/openjdk" \
   JAVA_ARGS=" \
     -XX:+UseG1GC \
     -XX:+ParallelRefProcEnabled \
@@ -53,7 +74,7 @@ RUN \
 USER paper
 WORKDIR /home/paper
 RUN mkdir minecraft
-COPY --from=java-build $JAVA_HOME $JAVA_HOME
+COPY --from=download-temurin $JAVA_HOME $JAVA_HOME
 COPY src/* ./
 
 # Container Setup
