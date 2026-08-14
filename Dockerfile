@@ -6,22 +6,26 @@ ARG JAVA_VERSION="25"
 ENV JAVA_HOME="/opt/java/openjdk"
 ENV PATH="$JAVA_HOME/bin:$PATH"
 
+# https://adoptium.net/installation/ci-scripts
 RUN \
   cd ~; \
   apk -U upgrade --no-cache; \
   apk add --no-cache curl gnupg; \
-
+  #
   API_URL="https://api.adoptium.net/v3/binary/latest/$JAVA_VERSION/ga/alpine-linux/$(apk --print-arch)/jre/hotspot/normal/eclipse"; \
-  FETCH_URL=$(curl -s -w %{redirect_url} "$API_URL"); \
-  curl -fsSLo openjdk.tar.gz $FETCH_URL; \
-  curl -fsSLo openjdk.tar.gz.sig $FETCH_URL.sig; \
-
-  # For some reason this freezes after finishing, I literally can't figure out why.
-  # gpg --batch --keyserver keyserver.ubuntu.com --recv-keys 3B04D753C9050D9A5D343F39843C48A565F8F04B; \
-  # gpg --verify openjdk.tar.gz.sig openjdk.tar.gz; \
-
+  FETCH_URL=$(curl -w "%{redirect_url}" "$API_URL"); \
+  echo "$API_URL\n$FETCH_URL"; \
+  #
+  FILENAME=$(curl -LOw %{filename_effective} "$FETCH_URL"); \
+  echo "$FILENAME"; \
+  curl -L "$FETCH_URL.sha256.txt" | sha256sum -c; \
+  #
+  gpg --batch --keyserver keyserver.ubuntu.com --recv-keys 3B04D753C9050D9A5D343F39843C48A565F8F04B; \
+  curl -LO "$FETCH_URL.sig"; \
+  gpg --batch --verify "$FILENAME.sig" "$FILENAME"; \
+  #
   mkdir -p "$JAVA_HOME"; \
-  tar -xf openjdk.tar.gz -C $JAVA_HOME --strip-components=1 --no-same-owner; \
+  tar -xf "$FILENAME" -C "$JAVA_HOME" --strip-components=1 --no-same-owner; \
   java -version
 
 ########################################################################################################################
@@ -65,9 +69,9 @@ ENV PATH="$JAVA_HOME/bin:$PATH"
 # since Busybox has its own version of wget.
 # Also setup paper user.
 RUN \
-  apk -U upgrade --no-cache \
-  && apk add --no-cache jq tini \
-  && adduser -D paper paper
+  apk -U upgrade --no-cache; \
+  apk add --no-cache jq tini; \
+  adduser -D paper paper
 
 # Post Project Setup
 # Switch to paper user, move to home directory, and create server directory.
